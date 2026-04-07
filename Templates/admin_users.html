@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Users — Lazuli Ltd.</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h2>Lazuli Ltd.</h2>
+    <p>Admin Panel</p>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item">
+      <a class="nav-link" href="{{ url_for('admin_home') }}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Overview
+      </a>
+    </div>
+    <div class="nav-item open">
+      <button class="nav-link" data-toggle="users">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Users
+        <span class="arrow">&#9658;</span>
+      </button>
+      <div class="nav-dropdown">
+        <a href="{{ url_for('admin_users') }}" class="active">View All Users</a>
+        <a href="{{ url_for('admin_pending') }}">Pending Approvals</a>
+        <a href="{{ url_for('admin_roles') }}">Assign Roles</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-link" data-toggle="logs">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Logs
+        <span class="arrow">&#9658;</span>
+      </button>
+      <div class="nav-dropdown">
+        <a href="{{ url_for('admin_logs') }}">View All Logs</a>
+        <a href="{{ url_for('admin_logs_filter') }}">Filter by User</a>
+        <a href="{{ url_for('admin_logs_report') }}">Generate Report</a>
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="{{ url_for('logout') }}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <span class="topbar-title">All Users</span>
+    <div class="topbar-user">
+      <div class="avatar">{{ username[0].upper() }}</div>
+      {{ username }}
+    </div>
+  </div>
+
+  <div class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ 'success' if cat == 'success' else 'danger' }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="page-header">
+      <div><h2>All Users</h2><p>Manage registered accounts</p></div>
+    </div>
+
+    <div class="section-card">
+      {% if users %}
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td style="color: var(--gray-400);">{{ u[0] }}</td>
+            <td><strong>{{ u[1] }}</strong></td>
+            <td>
+              {% if u[2] == 'admin' %}
+                <span class="badge badge-blue">Admin</span>
+              {% elif u[2] == 'hr' %}
+                <span class="badge badge-amber">HR</span>
+              {% else %}
+                <span class="badge badge-gray">Officer</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if u[3] == 1 %}
+                <span class="badge badge-green">Approved</span>
+              {% else %}
+                <span class="badge badge-red">Pending</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if u[1] != username %}
+              <form method="POST" action="{{ url_for('admin_delete_user') }}" style="display:inline;">
+                <input type="hidden" name="username" value="{{ u[1] }}"/>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Delete {{ u[1] }}?')">Delete</button>
+              </form>
+              {% else %}
+                <span style="font-size:0.75rem; color: var(--gray-400);">You</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <div class="empty-state">No users found.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

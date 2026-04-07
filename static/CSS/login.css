@@ -1,0 +1,146 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f4f4f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0dfd8;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.logo-wrap {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.logo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #E6F1FB;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.logo-icon svg { display: block; }
+
+h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.subtitle { font-size: 0.8rem; color: #888; }
+
+.tabs {
+  display: flex;
+  border: 1px solid #e0dfd8;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab-btn.active {
+  background: #185FA5;
+  color: #fff;
+}
+
+.form-section { display: none; }
+.form-section.active { display: block; }
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 5px;
+  margin-top: 0.9rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #111;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus { border-color: #185FA5; }
+
+.btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 10px;
+  background: #185FA5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover { background: #0C447C; }
+
+.error {
+  margin-top: 1rem;
+  background: #FCEBEB;
+  color: #A32D2D;
+  border: 1px solid #F7C1C1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.success {
+  margin-top: 1rem;
+  background: #EAF3DE;
+  color: #3B6D11;
+  border: 1px solid #C0DD97;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.notice {
+  margin-top: 1.25rem;
+  background: #f4f4f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  color: #888;
+  text-align: center;
+}
