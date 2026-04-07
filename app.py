@@ -8,6 +8,8 @@ from Modules.database import (
 )
 import os
 
+print("🔥 APP STARTING 🔥")
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "change-this-in-production")
 
